@@ -4,14 +4,11 @@ import { ArrowRight } from 'lucide-react';
 
 // Define your 5 questions here
 const TRIVIA_QUESTIONS = [
-  { q: 'Which movie did we watch at our first movie date?', a: 'saiyaara' },
-  { q: 'Where was our first kiss?', a: 'mall' },
-  {
-    q: 'Which color outfit did we wear on our first day of relationship',
-    a: 'white',
-  },
-  { q: 'what was our first date venue', a: 'citrus trail' },
-  { q: 'What month is our anniversary?', a: 'may' },
+  { q: "Which movie did we watch on our first movie date?", a: "saiyaara" },
+  { q: "Where was our first kiss?", a: "mall" },
+  { q: "What color did we wear on the first day of our relationship?", a: "white" },
+  { q: "What was our first date venue?", a: "citrus trail" },
+  { q: "What month is our anniversary?", a: "may" }
 ];
 
 const TriviaStage = ({ isMidnight, onComplete }) => {

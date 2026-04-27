@@ -10,24 +10,25 @@ const FinaleStage = ({ isMidnight }) => {
   const togglePlay = () => {
     if (isPlaying) {
       audioRef.current.pause();
+      setIsPlaying(false);
     } else {
       audioRef.current.play();
+      setIsPlaying(true);
     }
-    setIsPlaying(!isPlaying);
   };
 
   // Autoplay when the component mounts
   useEffect(() => {
     if (audioRef.current) {
-      // The browser allows this because she already clicked through previous stages!
       audioRef.current
         .play()
         .then(() => {
-          setIsPlaying(true); // Start spinning the vinyl
+          setIsPlaying(true); // Autoplay worked! Start spinning.
         })
         .catch((error) => {
-          // Fallback just in case her specific browser blocks it
-          //console.warn('Autoplay was prevented by the browser:', error);
+          // Autoplay was blocked by the mobile browser. 
+          // Keep it paused so she can click the glowing play button.
+          setIsPlaying(false); 
         });
     }
 
@@ -47,12 +48,20 @@ const FinaleStage = ({ isMidnight }) => {
       transition={{ duration: 1 }}
       className="w-full max-w-5xl h-full flex flex-col md:flex-row gap-12 overflow-y-auto pb-24 pt-8 md:pt-16 items-center md:items-start"
     >
-      {/* Hidden Audio Element */}
-      <audio ref={audioRef} src="https://files.catbox.moe/efyi4l.mp3" loop />
+      {/* Hidden Audio Element - Forced to loop! */}
+      <audio 
+        ref={audioRef} 
+        src="https://files.catbox.moe/efyi4l.mp3" 
+        loop={true}
+        onEnded={() => {
+          // Fallback just in case the browser ignores the loop attribute
+          audioRef.current.currentTime = 0;
+          audioRef.current.play();
+        }}
+      />
 
       {/* --- LEFT SIDE: The Midnight Vinyl Player --- */}
       <div className="w-full md:w-5/12 flex flex-col items-center justify-center pt-8 md:sticky md:top-10">
-        {/* The Record Player Frame */}
         <div
           className={`relative p-4 md:p-6 rounded-3xl shadow-2xl ${
             isMidnight
@@ -70,26 +79,22 @@ const FinaleStage = ({ isMidnight }) => {
                 : 'bg-[#111] border-stone-800'
             }`}
           >
-            {/* Vinyl Grooves (CSS Rings) */}
+            {/* Vinyl Grooves */}
             <div className="absolute inset-2 rounded-full border border-white/5"></div>
             <div className="absolute inset-6 rounded-full border border-white/5"></div>
             <div className="absolute inset-10 rounded-full border border-white/10"></div>
             <div className="absolute inset-16 rounded-full border border-white/5"></div>
 
-            {/* --- NEW: Center Label with Custom Image --- */}
+            {/* Center Label with Custom Image */}
             <div className="relative w-16 h-16 md:w-20 md:h-20 rounded-full flex items-center justify-center shadow-[0_0_15px_rgba(0,0,0,0.8)] overflow-hidden border border-white/10">
-              {/* REPLACE THIS SRC WITH YOUR ACTUAL IMAGE LINK */}
               <img
                 src="https://files.catbox.moe/h1ojc5.jpeg"
                 alt="Record Center"
                 className="absolute inset-0 w-full h-full object-cover"
               />
-
-              {/* Spindle hole (The black dot in the center) */}
               <div className="relative z-10 w-3 h-3 rounded-full bg-[#111] border border-white/30 shadow-inner"></div>
             </div>
 
-            {/* Vinyl Lighting Reflection (Static while record spins) */}
             <div className="absolute inset-0 bg-gradient-to-tr from-transparent via-white/5 to-transparent mix-blend-overlay pointer-events-none"></div>
           </motion.div>
 
@@ -97,10 +102,12 @@ const FinaleStage = ({ isMidnight }) => {
           <div className="mt-8 flex flex-col items-center gap-3">
             <button
               onClick={togglePlay}
-              className={`w-14 h-14 rounded-full flex items-center justify-center shadow-lg transition-transform hover:scale-105 active:scale-95 ${
-                isMidnight
-                  ? 'bg-rose-500 text-white'
-                  : 'bg-[#E8445A] text-white'
+              className={`w-14 h-14 rounded-full flex items-center justify-center shadow-lg transition-all duration-300 hover:scale-105 active:scale-95 ${
+                isMidnight ? 'bg-rose-500 text-white' : 'bg-[#E8445A] text-white'
+              } ${
+                !isPlaying 
+                  ? 'animate-pulse ring-4 ring-rose-500/40 shadow-[0_0_20px_rgba(244,63,94,0.6)]' 
+                  : ''
               }`}
             >
               {isPlaying ? (
@@ -112,7 +119,7 @@ const FinaleStage = ({ isMidnight }) => {
             <div className="flex items-center gap-2 opacity-60">
               <Music className="w-3 h-3 animate-pulse" />
               <span className="text-[10px] uppercase tracking-widest font-medium">
-                {isPlaying ? 'Now Playing' : 'Play Soundtrack'}
+                {isPlaying ? 'Now Playing' : 'Tap to Play Soundtrack'}
               </span>
             </div>
           </div>
@@ -129,7 +136,6 @@ const FinaleStage = ({ isMidnight }) => {
           Happy 25th Birthday
         </h2>
 
-        {/* The Letter Content */}
         <div
           className={`space-y-6 font-serif leading-loose text-base md:text-lg tracking-wide ${
             isMidnight ? 'text-slate-300' : 'text-stone-700'
@@ -141,18 +147,18 @@ const FinaleStage = ({ isMidnight }) => {
             😂 (I'm not responsible if you feel cringe){' '}
           </p>
           <p>
-            Silver jublee it is, you know right this birthday was the turning
+            Silver jubilee it is, you know right this birthday was the turning
             point, our relationship started with this point if you remember 😉.
           </p>
           <p>
-            Actually I'm out of words i don't know what to say it is been almost
+            Actually I'm out of words I don't know what to say it is been almost
             3 fantabulous years and way more to go. The whole point is Thank you
             💖 for all the joy, happiness and overwhelming support you have
             showered towards me.
           </p>
           <p>
             I don't know how you'll react for all this 😂😂...... my intention
-            is to surprise you with something or the other on every occassion.
+            is to surprise you with something or the other on every occasion.
           </p>
           <p>
             I love you too much I guess 😘💖, though this addiction just keeps
@@ -161,7 +167,6 @@ const FinaleStage = ({ isMidnight }) => {
           </p>
         </div>
 
-        {/* Sign-off */}
         <div className="mt-16 pt-8 border-t border-stone-200/20 flex justify-between items-center">
           <span className="text-xs uppercase tracking-[0.3em] opacity-50">
             Forever yours
