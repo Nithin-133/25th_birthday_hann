@@ -228,13 +228,10 @@ function App() {
         <PhotoString isMidnight={isMidnight} />
       </section>
 
-      {/* --- THE GRAND FINALE BRIDGE --- */}
-      <section
-        className={`relative z-10 transition-colors duration-1000 ${
-          isMidnight ? 'bg-[#080d1a]' : 'bg-white'
-        }`}
-      >
-        <MessageReveal isMidnight={isMidnight} />
+      <section className={`relative z-50 w-full min-h-screen flex flex-col transition-colors duration-1000 ${
+        isMidnight ? 'bg-[#080d1a]' : 'bg-white'
+      }`}>
+         <MessageReveal isMidnight={isMidnight} />
       </section>
 
       <footer
