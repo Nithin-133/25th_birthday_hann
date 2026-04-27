@@ -228,7 +228,7 @@ function App() {
         <PhotoString isMidnight={isMidnight} />
       </section>
 
-      <section className={`relative z-50 w-full min-h-screen flex flex-col transition-colors duration-1000 ${
+      <section className={`relative z-50 w-full py-24 flex flex-col items-center justify-center transition-colors duration-1000 ${
         isMidnight ? 'bg-[#080d1a]' : 'bg-white'
       }`}>
          <MessageReveal isMidnight={isMidnight} />
