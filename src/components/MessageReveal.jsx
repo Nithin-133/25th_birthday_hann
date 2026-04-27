@@ -14,23 +14,28 @@ const MessageReveal = ({ isMidnight }) => {
       {/* The Entry Button */}
       {stage === 0 && (
         <div className="w-full flex justify-center py-24">
-          <button
-            onClick={yourClickFunctionHere} // Keep your existing onClick handler!
-            className={`group relative overflow-hidden rounded-full px-10 py-5 transition-all duration-500 hover:scale-105 active:scale-95 ${isMidnight
-                ? 'bg-slate-900 border border-rose-500/30 shadow-[0_0_30px_rgba(244,63,94,0.15)] hover:shadow-[0_0_40px_rgba(244,63,94,0.3)] hover:border-rose-500/60'
+          <motion.button
+            whileHover={{ scale: 1.05 }}
+            whileTap={{ scale: 0.95 }}
+            onClick={() => setStage(1)}
+            className={`group relative overflow-hidden rounded-full px-10 py-5 transition-all duration-500 ${
+              isMidnight 
+                ? 'bg-slate-900 border border-rose-500/30 shadow-[0_0_30px_rgba(244,63,94,0.15)] hover:shadow-[0_0_40px_rgba(244,63,94,0.3)] hover:border-rose-500/60' 
                 : 'bg-white border border-[#C5A059]/30 shadow-[0_15px_30px_rgba(197,160,89,0.1)] hover:shadow-[0_20px_40px_rgba(197,160,89,0.2)] hover:border-[#C5A059]/60'
-              }`}
+            }`}
           >
             {/* Elegant Hover Glow */}
-            <div className={`absolute inset-0 opacity-0 transition-opacity duration-500 group-hover:opacity-10 ${isMidnight ? 'bg-gradient-to-r from-rose-500 to-purple-500' : 'bg-gradient-to-r from-[#C5A059] to-[#FFB6C1]'
-              }`}></div>
+            <div className={`absolute inset-0 opacity-0 transition-opacity duration-500 group-hover:opacity-10 ${
+              isMidnight ? 'bg-gradient-to-r from-rose-500 to-purple-500' : 'bg-gradient-to-r from-[#C5A059] to-[#FFB6C1]'
+            }`}></div>
 
             {/* Premium Typography */}
-            <span className={`relative z-10 font-serif text-sm md:text-base uppercase tracking-[0.3em] font-medium transition-colors duration-500 ${isMidnight ? 'text-rose-300' : 'text-[#C5A059]'
-              }`}>
+            <span className={`relative z-10 font-serif text-sm md:text-base uppercase tracking-[0.3em] font-medium transition-colors duration-500 ${
+              isMidnight ? 'text-rose-300' : 'text-[#C5A059]'
+            }`}>
               Unlock Final Gift
             </span>
-          </button>
+          </motion.button>
         </div>
       )}
 
@@ -42,10 +47,11 @@ const MessageReveal = ({ isMidnight }) => {
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: '100%' }}
             transition={{ duration: 0.7, ease: [0.22, 1, 0.36, 1] }}
-            className={`fixed inset-0 z-[200] flex flex-col items-center justify-center p-6 overflow-hidden ${isMidnight
+            className={`fixed inset-0 z-[200] flex flex-col items-center justify-center p-6 overflow-hidden ${
+              isMidnight
                 ? 'bg-[#0B1121] text-slate-200'
                 : 'bg-[#FDFBF7] text-[#554433]'
-              }`}
+            }`}
           >
             <button
               onClick={() => setStage(0)}
